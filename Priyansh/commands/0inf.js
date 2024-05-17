@@ -1,13 +1,13 @@
 module.exports.config = {
-	name: "info",
-	version: "1.0.1", 
-	hasPermssion: 0,
-	credits: "𝐏𝐫𝐢𝐲𝐚𝐧𝐬𝐡 𝐑𝐚𝐣𝐩𝐮𝐭",
-	description: "Admin and Bot info.",
-	commandCategory: "...",
-	cooldowns: 1,
-	dependencies: 
-	{
+  name: "info",
+  version: "1.0.1", 
+  hasPermssion: 0,
+  credits: "𝐏𝐫𝐢𝐲𝐚𝐧𝐬𝐡 𝐑𝐚𝐣𝐩𝐮𝐭",
+  description: "Admin and Bot info.",
+  commandCategory: "...",
+  cooldowns: 1,
+  dependencies: 
+  {
     "request":"",
     "fs-extra":"",
     "axios":""
@@ -18,9 +18,9 @@ const axios = global.nodemodule["axios"];
 const request = global.nodemodule["request"];
 const fs = global.nodemodule["fs-extra"];
 const time = process.uptime(),
-		hours = Math.floor(time / (60 * 60)),
-		minutes = Math.floor((time % (60 * 60)) / 60),
-		seconds = Math.floor(time % 60);
+    hours = Math.floor(time / (60 * 60)),
+    minutes = Math.floor((time % (60 * 60)) / 60),
+    seconds = Math.floor(time % 60);
 const moment = require("moment-timezone");
 var juswa = moment.tz("Asia/Dhaka").format("『D/MM/YYYY』 【HH:mm:ss】");
 var link =                                     

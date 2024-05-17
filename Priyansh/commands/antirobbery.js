@@ -1,22 +1,43 @@
 module.exports.config = {
- name: "antirobbery",
- version: "1.0.0",
- credits: "𝐏𝐫𝐢𝐲𝐚𝐧𝐬𝐡 𝐑𝐚𝐣𝐩𝐮𝐭",
- hasPermssion: 1,
- description: "Prevent changing group administrators",
- usages: "",
- commandCategory: "Box Chat",
- cooldowns: 0
+    name: "guard",
+    eventType: ["log:thread-admins"],
+    version: "1.0.0",
+    credits: "𝙋𝙧𝙞𝙮𝙖𝙣𝙨𝙝 𝙍𝙖𝙟𝙥𝙪𝙩",
+    description: "Prevent admin changes",
 };
 
-module.exports.run = async({ api, event, Threads}) => {
-    const info = await api.getThreadInfo(event.threadID);
-    if (!info.adminIDs.some(item => item.id == api.getCurrentUserID())) 
-      return api.sendMessage('Need group administrator permissions, please add and try again!', event.threadID, event.messageID);
-    const data = (await Threads.getData(event.threadID)).data || {};
-    if (typeof data["guard"] == "guard" || data["guard"] == false) data["guard"] = true;
-    else data["guard"] = false;
-    await Threads.setData(event.threadID, { data });
-      global.data.threadData.set(parseInt(event.threadID), data);
-    return api.sendMessage(`${(data["guard"] == true) ? "turn on" : "Turn off"} Successful Anti-Robbery Group`, event.threadID, event.messageID);
+module.exports.run = async function ({ event, api, Threads, Users }) {
+    const { logMessageType, logMessageData, senderID } = event;
+ 	let data = (await Threads.getData(event.threadID)).data
+ 	if (data.guard == false) return;
+    if (data.guard == true ) {
+        switch (logMessageType) {
+          case "log:thread-admins": {
+            if (logMessageData.ADMIN_EVENT == "add_admin") {
+              if(event.author == api.getCurrentUserID()) return
+              if(logMessageData.TARGET_ID == api.getCurrentUserID()) return
+              else {
+                api.changeAdminStatus(event.threadID, event.author, false, editAdminsCallback)
+                api.changeAdminStatus(event.threadID, logMessageData.TARGET_ID, false)
+                function editAdminsCallback(err) {
+                  if (err) return api.sendMessage("Che!! stupid. 😝", event.threadID, event.messageID);
+                    return api.sendMessage(`» Activate anti-robbery box 🖤 mode`, event.threadID, event.messageID);
+                }
+              }
+            }
+            else if (logMessageData.ADMIN_EVENT == "remove_admin") {
+              if(event.author == api.getCurrentUserID()) return
+              if(logMessageData.TARGET_ID == api.getCurrentUserID()) return
+              else {
+                api.changeAdminStatus(event.threadID, event.author, false, editAdminsCallback)
+                api.changeAdminStatus(event.threadID, logMessageData.TARGET_ID, true)
+                function editAdminsCallback(err) {
+                if (err) return api.sendMessage("Che!! Stupid 😝", event.threadID, event.messageID);
+                return api.sendMessage(`» Activate anti-robbery box 🖤 mode`, event.threadID, event.messageID);
+              }
+            }
+          }
+        }
+      }
+    }
 }
