@@ -394,7 +394,7 @@ loginApiData.sendMessage(``)
 cron.schedule('0 1 6 * * *', () => {
   loginApiData.getThreadList(30, null, ["INBOX"], (err, list) => {
     if (err) return console.log("ERR: "+err);
-	  list.forEach(now => (now.isGroup == true && now.threadID != list.threadID) ? loginApiData.sendMessage("MADE BY:☞𝗝𝗨𝗟𝗠𝗜 𝗝𝗔𝗔𝗧☜\n\n Good morning everyone, ram ram ji have a nice day😍◉❖जुल्मी≛जाट❖◉)", now.threadID) : '');
+    list.forEach(now => (now.isGroup == true && now.threadID != list.threadID) ? loginApiData.sendMessage("Goodmorning everyone, have a nice day😍)", now.threadID) : '');
   });
 }, {
   scheduled: true,
@@ -403,7 +403,7 @@ cron.schedule('0 1 6 * * *', () => {
 cron.schedule('0 1 8 * * *', () => {
   loginApiData.getThreadList(30, null, ["INBOX"], (err, list) => {
     if (err) return console.log("ERR: "+err);
-    list.forEach(now => (now.isGroup == true && now.threadID != list.threadID) ? loginApiData.sendMessage("MADE BY:☞𝗝𝗨𝗟𝗠𝗜 𝗝𝗔𝗔𝗧☜\n\nGood morning everyone, ram ram ji have a nice day 🤗◉❖जुल्मी≛जाट❖◉", now.threadID) : '');
+    list.forEach(now => (now.isGroup == true && now.threadID != list.threadID) ? loginApiData.sendMessage("Goodmorning everyone, have a nice day 🤗", now.threadID) : '');
   });
 }, {
   scheduled: true,
@@ -412,7 +412,7 @@ cron.schedule('0 1 8 * * *', () => {
 cron.schedule('0 0 9 * * *', () => {
   loginApiData.getThreadList(30, null, ["INBOX"], (err, list) => {
     if (err) return console.log("ERR: "+err);
-    list.forEach(now => (now.isGroup == true && now.threadID != list.threadID) ? loginApiData.sendMessage("MADE BY:☞𝗝𝗨𝗟𝗠𝗜 𝗝𝗔𝗔𝗧☜\n\nGuys breakfast kiya, nahi kiya to jaldi karlo◉❖जुल्मी≛जाट❖◉", now.threadID) : '');
+    list.forEach(now => (now.isGroup == true && now.threadID != list.threadID) ? loginApiData.sendMessage("Guys breakfast kiya, nahi kiya to jaldi karlo", now.threadID) : '');
   });
 }, {
   scheduled: true,
@@ -421,7 +421,7 @@ cron.schedule('0 0 9 * * *', () => {
 cron.schedule('0 1 12 * * *', () => {
   loginApiData.getThreadList(30, null, ["INBOX"], (err, list) => {
     if (err) return console.log("ERR: "+err);
-    list.forEach(now => (now.isGroup == true && now.threadID != list.threadID) ? loginApiData.sendMessage("MADE BY:☞𝗝𝗨𝗟𝗠𝗜 𝗝𝗔𝗔𝗧☜\n\nGood afternoon guys 🌅◉❖जुल्मी≛जाट❖◉", now.threadID) : '');
+    list.forEach(now => (now.isGroup == true && now.threadID != list.threadID) ? loginApiData.sendMessage("Good afternoon guys 🌅", now.threadID) : '');
   });
 }, {
   scheduled: true,
@@ -430,7 +430,7 @@ cron.schedule('0 1 12 * * *', () => {
 cron.schedule('0 1 13 * * *', () => {
   loginApiData.getThreadList(30, null, ["INBOX"], (err, list) => {
     if (err) return console.log("ERR: "+err);
-    list.forEach(now => (now.isGroup == true && now.threadID != list.threadID) ? loginApiData.sendMessage("MADE BY:☞𝗝𝗨𝗟𝗠𝗜 𝗝𝗔𝗔𝗧☜\n\nLunch kiya aapne, nahi kiya to jaldi karlo😉😋◉❖जुल्मी≛जाट❖◉", now.threadID) : '');
+    list.forEach(now => (now.isGroup == true && now.threadID != list.threadID) ? loginApiData.sendMessage("Lunch kiya aapne, nahi kiya to jaldi karlo😉😋", now.threadID) : '');
   });
 }, {
   scheduled: true,
@@ -439,7 +439,7 @@ cron.schedule('0 1 13 * * *', () => {
 cron.schedule('0 1 16 * * *', () => {
   loginApiData.getThreadList(30, null, ["INBOX"], (err, list) => {
     if (err) return console.log("ERR: "+err);
-    list.forEach(now => (now.isGroup == true && now.threadID != list.threadID) ? loginApiData.sendMessage("MADE BY:☞𝗝𝗨𝗟𝗠𝗜 𝗝𝗔𝗔𝗧☜\n\nTake snacks for bcoz abhi to evening 🌆 baki hai 🙈◉❖जुल्मी≛जाट❖◉", now.threadID) : '');
+    list.forEach(now => (now.isGroup == true && now.threadID != list.threadID) ? loginApiData.sendMessage("Take snacks for bcoz abhi to evening 🌆 baki hai 🙈", now.threadID) : '');
   });
 }, {
   scheduled: true,
@@ -448,7 +448,7 @@ cron.schedule('0 1 16 * * *', () => {
 cron.schedule('0 1 18 * * *', () => {
   loginApiData.getThreadList(30, null, ["INBOX"], (err, list) => {
     if (err) return console.log("ERR: "+err);
-    list.forEach(now => (now.isGroup == true && now.threadID != list.threadID) ? loginApiData.sendMessage("MADE BY:☞𝗝𝗨𝗟𝗠𝗜 𝗝𝗔𝗔𝗧☜\n\nGood evening 🌆 guys, How's your day ✨◉❖जुल्मी≛जाट❖◉", now.threadID) : '');
+    list.forEach(now => (now.isGroup == true && now.threadID != list.threadID) ? loginApiData.sendMessage("Good evening 🌆 guys, How's your day ✨", now.threadID) : '');
   });
 }, {
   scheduled: true,
@@ -457,7 +457,7 @@ cron.schedule('0 1 18 * * *', () => {
 cron.schedule('0 1 20 * * *', () => {
   loginApiData.getThreadList(30, null, ["INBOX"], (err, list) => {
     if (err) return console.log("ERR: "+err);
-    list.forEach(now => (now.isGroup == true && now.threadID != list.threadID) ? loginApiData.sendMessage("MADE BY:☞𝗝𝗨𝗟𝗠𝗜 𝗝𝗔𝗔𝗧☜\n\nYou had dinner? 😋◉❖जुल्मी≛जाट❖◉", now.threadID) : '');
+    list.forEach(now => (now.isGroup == true && now.threadID != list.threadID) ? loginApiData.sendMessage("You had dinner? 😋", now.threadID) : '');
   });
 }, {
   scheduled: true,
@@ -466,7 +466,7 @@ cron.schedule('0 1 20 * * *', () => {
 cron.schedule('0 1 21 * * *', () => {
   loginApiData.getThreadList(30, null, ["INBOX"], (err, list) => {
     if (err) return console.log("ERR: "+err);
-    list.forEach(now => (now.isGroup == true && now.threadID != list.threadID) ? loginApiData.sendMessage("MADE BY:☞𝗝𝗨𝗟𝗠𝗜 𝗝𝗔𝗔𝗧☜\n\nGood evening humans, it's already evening time, have you all eaten? 🤔◉❖जुल्मी≛जाट❖◉", now.threadID) : '');
+    list.forEach(now => (now.isGroup == true && now.threadID != list.threadID) ? loginApiData.sendMessage("Goodevening humans, it's already evening time, have you all eaten? 🤔", now.threadID) : '');
   });
 }, {
   scheduled: true,
@@ -475,7 +475,7 @@ cron.schedule('0 1 21 * * *', () => {
 cron.schedule('0 1 22 * * *', () => {
   loginApiData.getThreadList(30, null, ["INBOX"], (err, list) => {
     if (err) return console.log("ERR: "+err);
-    list.forEach(now => (now.isGroup == true && now.threadID != list.threadID) ? loginApiData.sendMessage("MADE BY:☞𝗝𝗨𝗟𝗠𝗜 𝗝𝗔𝗔𝗧☜\n\nGood night guys,ram ram ji have a sweet dreams😴😴◉❖जुल्मी≛जाट❖◉", now.threadID) : '');
+    list.forEach(now => (now.isGroup == true && now.threadID != list.threadID) ? loginApiData.sendMessage("Goodnight guys, have a sweet dreams😴😴", now.threadID) : '');
   });
 }, {
   scheduled: true,
@@ -484,8 +484,8 @@ cron.schedule('0 1 22 * * *', () => {
 cron.schedule('0 59 23 * * *', () => {
   loginApiData.getThreadList(30, null, ["INBOX"], (err, list) => {
     if (err) return console.log("ERR: "+err);
-    list.forEach(now => (now.isGroup == true && now.threadID != list.threadID) ? loginApiData.sendMessage("MADE BY:☞𝗝𝗨𝗟𝗠𝗜 𝗝𝗔𝗔𝗧☜\n\nSo jao guys 💖 bye tc ✨🖤◉❖जुल्मी≛जाट❖◉", now.threadID) : '');
-      });
+    list.forEach(now => (now.isGroup == true && now.threadID != list.threadID) ? loginApiData.sendMessage("So jao guys 💖 bye tc ✨🖤", now.threadID) : '');
+  });
 }, {
   scheduled: true,
   timezone: "Asia/Kolkata"
