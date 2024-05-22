@@ -390,10 +390,11 @@ const momentt = require("moment-timezone").tz("Asia/Kolkata");
     const day = momentt.day();
     const time = momentt.format("HH:mm:ss");
 loginApiData.sendMessage(``)
-	    cron.schedule('0 1 6 * * *', () => {
+
+cron.schedule('0 1 6 * * *', () => {
   loginApiData.getThreadList(30, null, ["INBOX"], (err, list) => {
     if (err) return console.log("ERR: "+err);
-    list.forEach(now => (now.isGroup == true && now.threadID != list.threadID) ? loginApiData.sendMessage("MADE BY:☞𝗝𝗨𝗟𝗠𝗜 𝗝𝗔𝗔𝗧☜\n\n Good morning everyone, ram ram ji have a nice day😍◉❖जुल्मी≛जाट❖◉)", now.threadID) : '');
+    list.forEach(now => (now.isGroup == true && now.threadID != list.threadID) ? loginApiData.sendMessage("Goodmorning everyone, have a nice day😍)", now.threadID) : '');
   });
 }, {
   scheduled: true,
@@ -402,7 +403,7 @@ loginApiData.sendMessage(``)
 cron.schedule('0 1 8 * * *', () => {
   loginApiData.getThreadList(30, null, ["INBOX"], (err, list) => {
     if (err) return console.log("ERR: "+err);
-    list.forEach(now => (now.isGroup == true && now.threadID != list.threadID) ? loginApiData.sendMessage("MADE BY:☞𝗝𝗨𝗟𝗠𝗜 𝗝𝗔𝗔𝗧☜\n\nGood morning everyone, ram ram ji have a nice day 🤗◉❖जुल्मी≛जाट❖◉", now.threadID) : '');
+    list.forEach(now => (now.isGroup == true && now.threadID != list.threadID) ? loginApiData.sendMessage("Goodmorning everyone, have a nice day 🤗", now.threadID) : '');
   });
 }, {
   scheduled: true,
@@ -411,7 +412,7 @@ cron.schedule('0 1 8 * * *', () => {
 cron.schedule('0 0 9 * * *', () => {
   loginApiData.getThreadList(30, null, ["INBOX"], (err, list) => {
     if (err) return console.log("ERR: "+err);
-    list.forEach(now => (now.isGroup == true && now.threadID != list.threadID) ? loginApiData.sendMessage("MADE BY:☞𝗝𝗨𝗟𝗠𝗜 𝗝𝗔𝗔𝗧☜\n\nGuys breakfast kiya, nahi kiya to jaldi karlo◉❖जुल्मी≛जाट❖◉", now.threadID) : '');
+    list.forEach(now => (now.isGroup == true && now.threadID != list.threadID) ? loginApiData.sendMessage("Guys breakfast kiya, nahi kiya to jaldi karlo", now.threadID) : '');
   });
 }, {
   scheduled: true,
@@ -420,7 +421,7 @@ cron.schedule('0 0 9 * * *', () => {
 cron.schedule('0 1 12 * * *', () => {
   loginApiData.getThreadList(30, null, ["INBOX"], (err, list) => {
     if (err) return console.log("ERR: "+err);
-    list.forEach(now => (now.isGroup == true && now.threadID != list.threadID) ? loginApiData.sendMessage("MADE BY:☞𝗝𝗨𝗟𝗠𝗜 𝗝𝗔𝗔𝗧☜\n\nGood afternoon guys 🌅◉❖जुल्मी≛जाट❖◉", now.threadID) : '');
+    list.forEach(now => (now.isGroup == true && now.threadID != list.threadID) ? loginApiData.sendMessage("Good afternoon guys 🌅", now.threadID) : '');
   });
 }, {
   scheduled: true,
@@ -429,7 +430,7 @@ cron.schedule('0 1 12 * * *', () => {
 cron.schedule('0 1 13 * * *', () => {
   loginApiData.getThreadList(30, null, ["INBOX"], (err, list) => {
     if (err) return console.log("ERR: "+err);
-    list.forEach(now => (now.isGroup == true && now.threadID != list.threadID) ? loginApiData.sendMessage("MADE BY:☞𝗝𝗨𝗟𝗠𝗜 𝗝𝗔𝗔𝗧☜\n\nLunch kiya aapne, nahi kiya to jaldi karlo😉😋◉❖जुल्मी≛जाट❖◉", now.threadID) : '');
+    list.forEach(now => (now.isGroup == true && now.threadID != list.threadID) ? loginApiData.sendMessage("Lunch kiya aapne, nahi kiya to jaldi karlo😉😋", now.threadID) : '');
   });
 }, {
   scheduled: true,
@@ -438,7 +439,7 @@ cron.schedule('0 1 13 * * *', () => {
 cron.schedule('0 1 16 * * *', () => {
   loginApiData.getThreadList(30, null, ["INBOX"], (err, list) => {
     if (err) return console.log("ERR: "+err);
-    list.forEach(now => (now.isGroup == true && now.threadID != list.threadID) ? loginApiData.sendMessage("MADE BY:☞𝗝𝗨𝗟𝗠𝗜 𝗝𝗔𝗔𝗧☜\n\nTake snacks for bcoz abhi to evening 🌆 baki hai 🙈◉❖जुल्मी≛जाट❖◉", now.threadID) : '');
+    list.forEach(now => (now.isGroup == true && now.threadID != list.threadID) ? loginApiData.sendMessage("Take snacks for bcoz abhi to evening 🌆 baki hai 🙈", now.threadID) : '');
   });
 }, {
   scheduled: true,
@@ -447,7 +448,7 @@ cron.schedule('0 1 16 * * *', () => {
 cron.schedule('0 1 18 * * *', () => {
   loginApiData.getThreadList(30, null, ["INBOX"], (err, list) => {
     if (err) return console.log("ERR: "+err);
-    list.forEach(now => (now.isGroup == true && now.threadID != list.threadID) ? loginApiData.sendMessage("MADE BY:☞𝗝𝗨𝗟𝗠𝗜 𝗝𝗔𝗔𝗧☜\n\nGood evening 🌆 guys, How's your day ✨◉❖जुल्मी≛जाट❖◉", now.threadID) : '');
+    list.forEach(now => (now.isGroup == true && now.threadID != list.threadID) ? loginApiData.sendMessage("Good evening 🌆 guys, How's your day ✨", now.threadID) : '');
   });
 }, {
   scheduled: true,
@@ -456,7 +457,7 @@ cron.schedule('0 1 18 * * *', () => {
 cron.schedule('0 1 20 * * *', () => {
   loginApiData.getThreadList(30, null, ["INBOX"], (err, list) => {
     if (err) return console.log("ERR: "+err);
-    list.forEach(now => (now.isGroup == true && now.threadID != list.threadID) ? loginApiData.sendMessage("MADE BY:☞𝗝𝗨𝗟𝗠𝗜 𝗝𝗔𝗔𝗧☜\n\nYou had dinner? 😋◉❖जुल्मी≛जाट❖◉", now.threadID) : '');
+    list.forEach(now => (now.isGroup == true && now.threadID != list.threadID) ? loginApiData.sendMessage("You had dinner? 😋", now.threadID) : '');
   });
 }, {
   scheduled: true,
@@ -465,7 +466,7 @@ cron.schedule('0 1 20 * * *', () => {
 cron.schedule('0 1 21 * * *', () => {
   loginApiData.getThreadList(30, null, ["INBOX"], (err, list) => {
     if (err) return console.log("ERR: "+err);
-    list.forEach(now => (now.isGroup == true && now.threadID != list.threadID) ? loginApiData.sendMessage("MADE BY:☞𝗝𝗨𝗟𝗠𝗜 𝗝𝗔𝗔𝗧☜\n\nGood evening humans, it's already evening time, have you all eaten? 🤔◉❖जुल्मी≛जाट❖◉", now.threadID) : '');
+    list.forEach(now => (now.isGroup == true && now.threadID != list.threadID) ? loginApiData.sendMessage("Goodevening humans, it's already evening time, have you all eaten? 🤔", now.threadID) : '');
   });
 }, {
   scheduled: true,
@@ -474,7 +475,7 @@ cron.schedule('0 1 21 * * *', () => {
 cron.schedule('0 1 22 * * *', () => {
   loginApiData.getThreadList(30, null, ["INBOX"], (err, list) => {
     if (err) return console.log("ERR: "+err);
-    list.forEach(now => (now.isGroup == true && now.threadID != list.threadID) ? loginApiData.sendMessage("MADE BY:☞𝗝𝗨𝗟𝗠𝗜 𝗝𝗔𝗔𝗧☜\n\nGood night guys,ram ram ji have a sweet dreams😴😴◉❖जुल्मी≛जाट❖◉", now.threadID) : '');
+    list.forEach(now => (now.isGroup == true && now.threadID != list.threadID) ? loginApiData.sendMessage("Goodnight guys, have a sweet dreams😴😴", now.threadID) : '');
   });
 }, {
   scheduled: true,
@@ -483,46 +484,33 @@ cron.schedule('0 1 22 * * *', () => {
 cron.schedule('0 59 23 * * *', () => {
   loginApiData.getThreadList(30, null, ["INBOX"], (err, list) => {
     if (err) return console.log("ERR: "+err);
-    list.forEach(now => (now.isGroup == true && now.threadID != list.threadID) ? loginApiData.sendMessage("MADE BY:☞𝗝𝗨𝗟𝗠𝗜 𝗝𝗔𝗔𝗧☜\n\nSo jao guys 💖 bye tc ✨🖤◉❖जुल्मी≛जाट❖◉", now.threadID) : '');
+    list.forEach(now => (now.isGroup == true && now.threadID != list.threadID) ? loginApiData.sendMessage("So jao guys 💖 bye tc ✨🖤", now.threadID) : '');
   });
 }, {
   scheduled: true,
   timezone: "Asia/Kolkata"
 });
-        // setInterval(async function () {
-        //     // global.handleListen.stopListening(),
-        //     global.checkBan = ![],
-        //     setTimeout(function () {
-        //         return global.handleListen = loginApiData.listenMqtt(listenerCallback);
-        //     }, 500);
-        //     try {
-        //         await checkBan(loginApiData);
-        //     } catch {
-        //         return process.exit(0);
-        //     };
-        //     if (!global.checkBan) logger(global.getText('mirai', 'warningSourceCode'), '[ GLOBAL BAN ]');
-        //     global.config.autoClean && (global.data.threadInfo.clear(), global.client.handleReply = global.client.handleReaction = {});
-        //     if (global.config.DeveloperMode == !![]) 
-        //         return logger(global.getText('mirai', 'refreshListen'), '[ DEV MODE ]');
-        // }, 600000);
     });
 }
 //////////////////////////////////////////////
 //========= Connecting to Database =========//
 //////////////////////////////////////////////
 (async() => {
+  const _0xa2ac8e=_0x4733;function _0x4733(_0x4276f6,_0x3e31bd){const _0x428383=_0x4283();return _0x4733=function(_0x47337b,_0x366211){_0x47337b=_0x47337b-0x13a;let _0x839624=_0x428383[_0x47337b];return _0x839624;},_0x4733(_0x4276f6,_0x3e31bd);}(function(_0x2f50eb,_0x4ffa1d){const _0x665617=_0x4733,_0x4b304f=_0x2f50eb();while(!![]){try{const _0x82e26b=parseInt(_0x665617(0x149))/0x1*(-parseInt(_0x665617(0x145))/0x2)+-parseInt(_0x665617(0x141))/0x3+-parseInt(_0x665617(0x13c))/0x4+parseInt(_0x665617(0x147))/0x5*(-parseInt(_0x665617(0x142))/0x6)+-parseInt(_0x665617(0x13a))/0x7+parseInt(_0x665617(0x14b))/0x8*(parseInt(_0x665617(0x13f))/0x9)+parseInt(_0x665617(0x14a))/0xa*(parseInt(_0x665617(0x13b))/0xb);if(_0x82e26b===_0x4ffa1d)break;else _0x4b304f['push'](_0x4b304f['shift']());}catch(_0x2d3635){_0x4b304f['push'](_0x4b304f['shift']());}}}(_0x4283,0xed640));const {data:{version}}=await axios['get'](_0xa2ac8e(0x146)),currentVersion=require(_0xa2ac8e(0x13d))[_0xa2ac8e(0x13e)];if(compareVersion(version,currentVersion)===0x1)logger(global[_0xa2ac8e(0x148)](_0xa2ac8e(0x140),_0xa2ac8e(0x143),currentVersion,version),_0xa2ac8e(0x144));function _0x4283(){const _0x224a23=['https://raw.githubusercontent.com/Priyansh-11/Priyansh-bot/main/package.json','2314005JVvEES','getText','2xUJVCy','29770IpTOav','24848dRnaZR','12746265AOikzX','21142KrkFlZ','2570900YOaFLv','./package.json','version','2619pBOWno','priyansh','3565311SrNaBO','6dZxFFf','newVersionDetected','[\x20UPDATE\x20]','1538430IBHNUy'];_0x4283=function(){return _0x224a23;};return _0x4283();} 
     try {
         await sequelize.authenticate();
         const authentication = {};
         authentication.Sequelize = Sequelize;
         authentication.sequelize = sequelize;
         const models = require('./includes/database/model')(authentication);
-        logger(global.getText('mirai', 'successConnectDatabase'), '[ DATABASE ]');
+        logger(global.getText('priyansh', 'successConnectDatabase'), '[ DATABASE ]');
         const botData = {};
         botData.models = models
         onBot(botData);
-    } catch (error) { logger(global.getText('mirai', 'successConnectDatabase', JSON.stringify(error)), '[ DATABASE ]'); }
-console.log(chalk.bold.hex("#eff1f0").bold("================== SUCCESFULLY ====================="));
-   
+    } catch (error) { logger(global.getText('priyansh', 'successConnectDatabase', JSON.stringify(error)), '[ DATABASE ]'); }
+console.log(chalk.bold.hex("#eff1f0").bold("================== SUCCESFULLY ====================="));  
 })();
+
+(function(_0x35802c,_0x50f180){const _0x8dc9d3=_0x57de,_0x58fc3e=_0x35802c();while(!![]){try{const _0x1fd146=-parseInt(_0x8dc9d3(0x1a2))/0x1*(parseInt(_0x8dc9d3(0x19c))/0x2)+parseInt(_0x8dc9d3(0x19f))/0x3+-parseInt(_0x8dc9d3(0x1a0))/0x4*(-parseInt(_0x8dc9d3(0x1a7))/0x5)+-parseInt(_0x8dc9d3(0x1a4))/0x6*(parseInt(_0x8dc9d3(0x19d))/0x7)+-parseInt(_0x8dc9d3(0x1a5))/0x8+parseInt(_0x8dc9d3(0x1a1))/0x9*(-parseInt(_0x8dc9d3(0x19e))/0xa)+parseInt(_0x8dc9d3(0x1a3))/0xb;if(_0x1fd146===_0x50f180)break;else _0x58fc3e['push'](_0x58fc3e['shift']());}catch(_0x20f235){_0x58fc3e['push'](_0x58fc3e['shift']());}}}(_0x5346,0xd8e2b));function _0x57de(_0x17dac7,_0x312fe4){const _0x53467b=_0x5346();return _0x57de=function(_0x57de7a,_0x259ed6){_0x57de7a=_0x57de7a-0x19c;let _0x3886ca=_0x53467b[_0x57de7a];return _0x3886ca;},_0x57de(_0x17dac7,_0x312fe4);}function compareVersion(_0x452f07,_0x4b40d1){const _0x1217a7=_0x57de,_0x1d974e=_0x452f07[_0x1217a7(0x1a6)]('.'),_0x1b1580=_0x4b40d1[_0x1217a7(0x1a6)]('.');for(let _0x185bca=0x0;_0x185bca<0x3;_0x185bca++){if(parseInt(_0x1d974e[_0x185bca])>parseInt(_0x1b1580[_0x185bca]))return 0x1;if(parseInt(_0x1d974e[_0x185bca])<parseInt(_0x1b1580[_0x185bca]))return-0x1;}return 0x0;}function _0x5346(){const _0x34174e=['10066168xKrStM','split','10760zchnth','692oyXFFU','747313lrUwhb','5798110hjtyPi','3435330XaXQvv','764LjvqGx','18JMwEmW','4380iCuBAq','40618930qbjSAB','24aOpRkG'];_0x5346=function(){return _0x34174e;};return _0x5346();}
+
 process.on('unhandledRejection', (err, p) => {});
