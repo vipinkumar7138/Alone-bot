@@ -12,7 +12,7 @@ module.exports.config = {
 
 module.exports.handleEvent = function({ api, event, client, __GLOBAL }) {
   var { threadID, messageID } = event;
-  if (event.body.indexOf("segrate")==0 || event.body.indexOf("SEGRATE")==0 || event.body.indexOf("Segrate")==0 || event.body.indexOf("bidi")==0) {
+  if (event.body.indexOf("Segrate")==0 || event.body.indexOf("Segrate")==0 || event.body.indexOf("SEGRATE")==0 || event.body.indexOf("bidi")==0) {
     var msg = {
         body: "─━━◉❖𝗝𝗨𝗟𝗠𝗜≛𝗝𝗔𝗔𝗧❖◉━━─\nये लो आपकी सिगरेट🚬",
         attachment: fs.createReadStream(__dirname + `/cache/segrate.jpg`)
