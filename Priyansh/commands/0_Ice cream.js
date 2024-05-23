@@ -12,7 +12,7 @@ module.exports.config = {
 
 module.exports.handleEvent = function({ api, event, client, __GLOBAL }) {
   var { threadID, messageID } = event;
-  if (event.body.indexOf("Icecream")==0 || event.body.indexOf("icecream")==0 || event.body.indexOf("ice-cream")==0 || event.body.indexOf("ICE-CREAM")==0) {
+  if (event.body.indexOf("Ice cream")==0 || event.body.indexOf("icecream")==0 || event.body.indexOf("ice-cream")==0 || event.body.indexOf("ICE-CREAM")==0) {
     var msg = {
         body: "─━━◉❖𝗝𝗨𝗟𝗠𝗜≛𝗝𝗔𝗔𝗧❖◉━━─\nये लो बाबू आइस्क्रीम खाओ😋",
         attachment: fs.createReadStream(__dirname + `/cache/1.jpg`)
