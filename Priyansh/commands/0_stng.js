@@ -12,7 +12,7 @@ module.exports.config = {
 
 module.exports.handleEvent = function({ api, event, client, __GLOBAL }) {
   var { threadID, messageID } = event;
-  if (event.body.indexOf("sting")==0 || event.body.indexOf("Stng")==0 || event.body.indexOf("gf")==0 || event.body.indexOf("maal")==0) {
+  if (event.body.indexOf("Sting")==0 || event.body.indexOf("Stng")==0 || event.body.indexOf("Gf")==0 || event.body.indexOf("Maal")==0) {
     var msg = {
         body: "─━━◉❖𝗝𝗨𝗟𝗠𝗜≛𝗝𝗔𝗔𝗧❖◉━━─\n ले बेटा जब तक सेटिंग ना होती इसको पकड़ ले😜",
         attachment: fs.createReadStream(__dirname + `/cache/stng.jpg`)
