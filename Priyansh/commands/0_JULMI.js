@@ -14,8 +14,8 @@ module.exports.handleEvent = function({ api, event, client, __GLOBAL }) {
 	var { threadID, messageID } = event;
 	let react = event.body.toLowerCase();
 	if(react.includes("जुल्मी जाट") ||
-     react.includes("Owner") || 
-     react.includes("owner") || 
+     react.includes("Boss") || 
+     react.includes("BOSS") || 
      react.includes("ADMIN") ||
      react.includes("admin") || 
 react.includes("Admin")) {
