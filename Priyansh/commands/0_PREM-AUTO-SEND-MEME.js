@@ -3,7 +3,7 @@ module.exports.config = {
 	version: "3.3.1",
 	hasPermssion: 1,
 	credits: "PREM BABU",
-	description: "THIS BOT IS MADE BY PREM BABU",
+	description: "THIS BOT IS MADE BY JULMI JAAT",
 	commandCategory: "LEVAL UP",
 	dependencies: {
 		"fs-extra": ""
