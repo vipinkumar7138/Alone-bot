@@ -1,83 +1,152 @@
- module.exports.config = {
-	name: "help2",
-	version: "1.0.2",
-	hasPermssion: 0,
-	credits: "𝐏𝐫𝐢𝐲𝐚𝐧𝐬𝐡 𝐑𝐚𝐣𝐩𝐮𝐭",
-	description: "Beginner's Guide",
-	commandCategory: "system",
-	usages: "[Tên module]",
-	cooldowns: 1,
-	envConfig: {
-		autoUnsend: true,
-		delayUnsend: 300
-	}
+const fs = require("fs-extra");
+const axios = require("axios");
+const path = require("path");
+const { getPrefix } = global.utils;
+const { commands, aliases } = global.GoatBot;
+const doNotDelete = "[ ♥️| ─━━◉❖𝗝𝗨𝗟𝗠𝗜≛𝗝𝗔𝗔𝗧❖◉━━─ ]"; // changing this wont change the goatbot V2 of list cmd it is just a decoyy
+
+module.exports = {
+	config: {
+		name: "help2",
+		version: "1.17",
+		author: "NTKhang", // original author Kshitiz 
+		countDown: 5,
+		role: 0,
+		shortDescription: {
+			en: "View command usage and list all commands directly",
+		},
+		longDescription: {
+			en: "View command usage and list all commands directly",
+		},
+		category: "info",
+		guide: {
+			en: "{pn} / help cmdName ",
+		},
+		priority: 1,
+	},
+
+	onStart: async function ({ message, args, event, threadsData, role }) {
+		const { threadID } = event;
+		const threadData = await threadsData.get(threadID);
+		const prefix = getPrefix(threadID);
+
+		if (args.length === 0) {
+			const categories = {};
+			let msg = "";
+
+			msg += `─━━◉❖𝗝𝗨𝗟𝗠𝗜≛𝗝𝗔𝗔𝗧❖◉━━─\n
+                            ░░█ █░█ █░░ █▀▄▀█ █\n
+                            █▄█ █▄█ █▄▄ █░▀░█ █\n
+                            \n\n◦❭❯❱ 𝗖𝗢𝗠𝗠𝗔𝗡𝗗𝗦 & 𝗖𝗔𝗧𝗘𝗚𝗢𝗥𝗬 ❰❮❬◦`; // replace with your name 
+
+			for (const [name, value] of commands) {
+				if (value.config.role > 1 && role < value.config.role) continue;
+
+				const category = value.config.category || "Uncategorized";
+				categories[category] = categories[category] || { commands: [] };
+				categories[category].commands.push(name);
+			}
+
+			Object.keys(categories).forEach((category) => {
+				if (category !== "info") {
+					msg += `\n╭───────────❍\n│ 『  ${category.toUpperCase()}  』`;
+
+
+					const names = categories[category].commands.sort();
+					for (let i = 0; i < names.length; i += 3) {
+						const cmds = names.slice(i, i + 3).map((item) => `✰${item}`);
+						msg += `\n│ ${cmds.join(" ".repeat(Math.max(1, 10 - cmds.join("").length)))}`;
+					}
+
+					msg += `\n╰────────────𒁍`;
+				}
+			});
+
+			const totalCommands = commands.size;
+			msg += `\n𝗖𝘂𝗿𝗿𝗲𝗻𝘁𝗹𝘆, 𝘁𝗵𝗲 𝗯𝗼𝘁 𝗵𝗮𝘀 ${totalCommands} 𝗰𝗼𝗺𝗺𝗮𝗻𝗱𝘀 𝘁𝗵𝗮𝘁 𝗰𝗮𝗻 𝗯𝗲 𝘂𝘀𝗲𝗱\n`;
+			msg += `𝗧𝘆𝗽𝗲 ${prefix} 𝗵𝗲𝗹𝗽 𝗰𝗺𝗱𝗡𝗮𝗺𝗲 𝘁𝗼 𝘃𝗶𝗲𝘄 𝘁𝗵𝗲 𝗱𝗲𝘁𝗮𝗶𝗹𝘀 𝗼𝗳 𝘁𝗵𝗮𝘁 𝗰𝗼𝗺𝗺𝗮𝗻𝗱\n\n`;
+			msg += `♥️ | ─━━◉❖जुल्मी ≛जाट❖◉━━─`; // its not decoy so change it if you want 
+
+			const helpListImages = [
+				'https://i.imgur.com/xyDcrW3.jpeg',
+
+				'https://i.imgur.com/wdZLWTU.jpeg',
+
+				'https://i.imgur.com/cJksczg.jpeg',
+
+				'https://i.imgur.com/URCFjrS.jpeg',
+
+				'https://i.imgur.com/iAHVc1a.jpeg',
+													'https://i.imgur.com/OSWG34k.jpeg',
+
+				'https://i.imgur.com/sTHeaMB.jpeg',
+
+				'https://i.imgur.com/6zzEoxf.jpeg',
+
+				'https://i.imgur.com/rDsUmFW.jpeg',
+
+				'https://i.imgur.com/Ew37GbZ.jpeg',
+
+				'https://i.imgur.com/QXnv0P8.jpeg',                                    
+				'https://i.imgur.com/f755v5B.jpeg', 
+
+				'https://i.imgur.com/7g5AKgh.jpeg',
+			];
+
+			const helpListImage = helpListImages[Math.floor(Math.random() * helpListImages.length)];
+
+			await message.reply({
+				body: msg,
+				attachment: await global.utils.getStreamFromURL(helpListImage),
+			});
+		} else {
+			const commandName = args[0].toLowerCase();
+			const command = commands.get(commandName) || commands.get(aliases.get(commandName));
+
+			if (!command) {
+				await message.reply(`Command "${commandName}" not found.`);
+			} else {
+				const configCommand = command.config;
+				const roleText = roleTextToString(configCommand.role);
+				const author = configCommand.author || "Unknown";
+
+				const longDescription = configCommand.longDescription ? configCommand.longDescription.en || "No description" : "No description";
+
+				const guideBody = configCommand.guide?.en || "No guide available.";
+				const usage = guideBody.replace(/{p}/g, prefix).replace(/{n}/g, configCommand.name);
+
+				const response = `╭── NAME ────⭓
+	│ ${configCommand.name}
+	├── INFO
+	│ Description: ${longDescription}
+	│ Other names: ${configCommand.aliases ? configCommand.aliases.join(", ") : "Do not have"}
+	│ Other names in your group: Do not have
+	│ Version: ${configCommand.version || "1.0"}
+	│ Role: ${roleText}
+	│ Time per command: ${configCommand.countDown || 1}s
+	│ Author: ${author}
+	├── Usage
+	│ ${usage}
+	├── Notes
+	│ The content inside <XXXXX> can be changed
+	│ The content inside [a|b|c] is a or b or c
+	╰━━━━━━━❖`;
+
+				await message.reply(response);
+			}
+		}
+	},
 };
 
-module.exports.languages = {
-	
-	"en": {
-		"moduleInfo": "「 %1 」\n%2\n\n❯ Usage: %3\n❯ Category: %4\n❯ Waiting time: %5 seconds(s)\n❯ Permission: %6\n\n» Module code by %7 «",
-		"helpList": '[ There are %1 commands on this bot, Use: "%2help nameCommand" to know how to use! ]',
-		"user": "User",
-        "adminGroup": "Admin group",
-        "adminBot": "Admin bot"
+function roleTextToString(roleText) {
+	switch (roleText) {
+		case 0:
+			return "0 (All users)";
+		case 1:
+			return "1 (Group administrators)";
+		case 2:
+			return "2 (Admin bot)";
+		default:
+			return "Unknown role";
 	}
-};
-
-module.exports.handleEvent = function ({ api, event, getText }) {
-	const { commands } = global.client;
-	const { threadID, messageID, body } = event;
-
-	if (!body || typeof body == "undefined" || body.indexOf("help") != 0) return;
-	const splitBody = body.slice(body.indexOf("help")).trim().split(/\s+/);
-	if (splitBody.length == 1 || !commands.has(splitBody[1].toLowerCase())) return;
-	const threadSetting = global.data.threadData.get(parseInt(threadID)) || {};
-	const command = commands.get(splitBody[1].toLowerCase());
-	const prefix = (threadSetting.hasOwnProperty("PREFIX")) ? threadSetting.PREFIX : global.config.PREFIX;
-	return api.sendMessage(getText("moduleInfo", command.config.name, command.config.description, `${prefix}${command.config.name} ${(command.config.usages) ? command.config.usages : ""}`, command.config.commandCategory, command.config.cooldowns, ((command.config.hasPermssion == 0) ? getText("user") : (command.config.hasPermssion == 1) ? getText("adminGroup") : getText("adminBot")), command.config.credits), threadID, messageID);
 }
-
-module.exports. run = function({ api, event, args, getText }) {
-	const { commands } = global.client;
-	const { threadID, messageID } = event;
-	const command = commands.get((args[0] || "").toLowerCase());
-	const threadSetting = global.data.threadData.get(parseInt(threadID)) || {};
-	const { autoUnsend, delayUnsend } = global.configModule[this.config.name];
-	const prefix = (threadSetting.hasOwnProperty("PREFIX")) ? threadSetting.PREFIX : global.config.PREFIX;
-
-	if (!command) {
-		const arrayInfo = [];
-		const page = parseInt(args[0]) || 1;
-    const numberOfOnePage = 9999;
-    //*số thứ tự 1 2 3.....cú pháp ${++i}*//
-    let i = 0;
-    let msg = "";
-    
-    for (var [name, value] of (commands)) {
-      name += ``;
-      arrayInfo.push(name);
-    }
-
-    arrayInfo.sort((a, b) => a.data - b.data);
-    
-    const startSlice = numberOfOnePage*page - numberOfOnePage;
-    i = startSlice;
-    const returnArray = arrayInfo.slice(startSlice, startSlice + numberOfOnePage);
-    
-    for (let item of returnArray) msg += `「 ${++i} 」${prefix}${item}\n`;
-    
-    
-    const siu = `Command list 📄\nMade by ◉❖जुल्मी≛जाट❖◉ 🥀\nFor More Information type /help (command name) ✨`;
-    
- const text = `\nPage (${page}/${Math.ceil(arrayInfo.length/numberOfOnePage)})`;
- 
-    return api.sendMessage(siu + "\n\n" + msg  + text, threadID, async (error, info) => {
-			if (autoUnsend) {
-				await new Promise(resolve => setTimeout(resolve, delayUnsend * 1000));
-				return api.unsendMessage(info.messageID);
-			} else return;
-		}, event.messageID);
-	}
-
-	return api.sendMessage(getText("moduleInfo", command.config.name, command.config.description, `${prefix}${command.config.name} ${(command.config.usages) ? command.config.usages : ""}`, command.config.commandCategory, command.config.cooldowns, ((command.config.hasPermssion == 0) ? getText("user") : (command.config.hasPermssion == 1) ? getText("adminGroup") : getText("adminBot")), command.config.credits), threadID, messageID);
-};
