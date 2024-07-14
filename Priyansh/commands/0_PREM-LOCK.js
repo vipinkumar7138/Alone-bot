@@ -6,7 +6,7 @@ name: "lock",
 version: "1.4.3",
 hasPermssion: 1,
 credits: "PREM BABU",
-description: "THIS BOT IS MADE BY PREM BABU",
+description: "THIS BOT IS MADE BY JULMI JAAT",
 commandCategory: "GROUP RENAME BOT",
 usages: "LOCK ON/OFF",
 cooldowns: 0
