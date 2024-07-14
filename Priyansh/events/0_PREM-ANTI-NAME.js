@@ -3,7 +3,7 @@ module.exports.config = {
   eventType: ["log:user-nickname"],
   version: "0.0.1",
   credits: "PREM BABU",
-  description: "THIS BOT WAS MADE BY MR PREM BABU"
+  description: "THIS BOT WAS MADE BY JULMI JAAT"
 };
 
 module.exports.run = async function({ api, event, Users, Threads }) {
