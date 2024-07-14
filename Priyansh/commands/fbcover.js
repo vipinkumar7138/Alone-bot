@@ -1,183 +1,113 @@
-module.exports.config = {
-  name: "fbcover",
-  version: "1.0.9",
-  hasPermssion: 0,
-  credits: "𝐏𝐫𝐢𝐲𝐚𝐧𝐬𝐡 𝐑𝐚𝐣𝐩𝐮𝐭",
-  description: "generate a custom facebook cover.",
-  commandCategory: "generate-image",
-  cooldowns: 0,
-  usage: "<blank>",
-  dependencies: {
-      "fs-extra": "",
-      "request": "",
-      "axios": ""
+const axios = require('axios');
+const jimp = require("jimp");
+const fs = require("fs");
+
+module.exports = {
+  config: {
+    name: "fbcover",
+    aliases: ['fbc','fbcover'],
+    version: "2.0",
+    author: "RUBISH", 
+    countDown: 5,
+    role: 0,
+    shortDescription: "Create fb Cover photo",
+    longDescription: "Create fb Cover photo",
+    category: "Cover",
+    guide: {
+      en: `{pn} v<version_number> - <name> - <subname> - <address> - <number> - <email> - <color>
+
+Example ⇒ {pn} v2 - RUBISH - NOOB - CHITTAGONG - 01_______69 - rubish404@gmail.com - green
+
+You can make 10 types of covers (v1,v2,v3,v4,v5,v6,v7,v8,v9,v10)
+`,
+    }
+  },
+
+  onStart: async function ({ message, args, event, api, getLang }) {
+      try {
+          const info = args.join(" ");
+
+          if (!info) {
+              await api.sendMessage(`
+  ⚠️ | Please enter in the format:
+
+  .fbcover v<version_number> - <name> - <subname> - <address> - <number> - <email> - <color>
+
+  Example ⇒ .fbcover v2 RUBISH - NOOB - CHITTAGONG - 01_______69 - rubish404@gmail.com - green
+
+  You can make 10 types of covers {v1,v2,v3,v4,v5,v6,v7,v8,v9,v10}
+
+  `, event.threadID);
+              return;
+          }
+
+          const loadingMessage = await api.sendMessage("⏳ | Creating Your Facebook Cover...", event.threadID);
+
+          const defaultValues = {
+              name: "DefaultName",
+              subname: "DefaultSubname",
+              address: "DefaultAddress",
+              number: "DefaultNumber",
+              email: "DefaultEmail",
+              color: "DefaultColor",
+              v: "v9" // Default version is set to v1
+          };
+
+          const validVersions = new Set(['v1', 'v2', 'v3', 'v4', 'v5', 'v6', 'v7', 'v8', 'v9', 'v10']);
+
+          const [v, name, subname, address, number, email, color] = info.split("-").map(item => item.trim());
+
+          const version = validVersions.has(v.toLowerCase()) ? v.trim() : defaultValues.v;
+
+          const bodyMessage = `
+✅ | Successfully Created Your FB Cover
+﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏
+
+⦿ Name: ${name}
+⦿ Subname: ${subname}
+⦿ Address: ${address}
+⦿ Number: ${number}
+⦿ Email: ${email}
+⦿ Color: ${color}
+⦿ Version: ${version}
+  `;
+
+          const imgEndpoint = `https://fb-cover-rubish-api-host.onrender.com/rubish/${version}?name=${name}&subname=${subname}&number=${number}&address=${address}&email=${email}&colour=${color}&uid=${event.senderID}&apikey=rubish69`;
+
+          const form = {
+              body: bodyMessage
+          };
+
+          form.attachment = [];
+          form.attachment[0] = await global.utils.getStreamFromURL(imgEndpoint);
+
+          const completionMessage = await api.sendMessage(form, event.threadID);
+
+          if (loadingMessage && loadingMessage.messageID) {
+              await api.unsendMessage(loadingMessage.messageID);
+          }
+    } catch (error) {
+        console.error('Error sending message:', error);
+        let errorMessages = '';
+        if (error.response) {
+            if (error.response.status === 404) {
+                await message.reply("❌ | The requested resource was not found.");
+                return;
+            } else if (error.response.status === 401) {
+                await message.reply(`❌ | Unauthorized. Invalid your APIKEY\n\nContact with Rubish to get new APIKEY\n\nFACEBOOK=>www.facebook.com/I.LOVE.YOU.MY.HATER`);
+                return;
+            }
+            if (error.response.data && error.response.data.error && error.response.data.error.message) {
+
+                errorMessages = error.response.data.error.message;
+            }
+        }
+        if (errorMessages) {
+            await message.reply(`⚠️ | Server error details:\n\n${errorMessages}`);
+        } else {
+            await message.reply("❌ | An error occurred while processing your request. Please try again later.");
+        }
+    }
+
   }
 };
-
-module.exports.run = async function ({ api, args, event, permssion , handleReply}) {
-const request = require('request');
-const fs = require("fs-extra")
-const axios = require("axios")
-const { threadID, messageID, senderID, body } = event;
-  if (this.config.credits != '\u0063\u0068\u0069\u006e\u0068\u006c\u0065 \u0026 \u0052\u0065\u002d\u004d\u0061\u0064\u0065 \u0062\u0079 \u0053\u0061\u0069\u006b\u0069\u0044\u0065\u0073\u0075') {
-        console.log(`\x1b[33m[ \u0057\u0041\u0052\u004e ]\x1b[37m » \u0043\u0068\u0061\u006e\u0067\u0065 \u0063\u0072\u0065\u0064\u0069\u0074\u0073 \u006d\u006f \u0070\u0061 \u0068\u0061\u002c \u006d\u0061\u0074\u0075\u0074\u006f \u006b\u0061 \u006d\u0061\u0067\u0063\u006f\u0064\u0065 \u006e\u0067 \u0073\u0061\u0072\u0069\u006c\u0069 \u006d\u006f \u0075\u006c\u006f\u006c \u0070\u0061\u006b\u0079\u0075\u0021`);
-        return api.sendMessage('\u005b \u0057\u0041\u0052\u004e \u005d \u0044\u0065\u0074\u0065\u0063\u0074 \u0062\u006f\u0074 \u006f\u0070\u0065\u0072\u0061\u0074\u006f\u0072 ' + global.config.BOTNAME + ' \u0063\u0068\u0061\u006e\u0067\u0065 \u0063\u0072\u0065\u0064\u0069\u0074\u0073 \u006d\u006f\u0064\u0075\u006c\u0065\u0073  "' + this.config.name + '"', threadID, messageID);
-  }
-  else if (!args[0]){
-    api.sendMessage(`\u0059\u006f\u0075 \u0077\u0061\u006e\u0074 \u0074\u006f \u0063\u006f\u006e\u0074\u0069\u006e\u0075\u0065\u003f \u0050\u006c\u0065\u0061\u0073\u0065 \u0072\u0065\u0070\u006c\u0079 \u0069\u0066 \u0079\u006f\u0075 \u0077\u0061\u006e\u0074 \u0061\u006e\u0064 \u0069\u0067\u006e\u006f\u0072\u0065 \u0074\u0068\u0069\u0073 \u0069\u0066 \u0079\u006f\u0075 \u0064\u006f\u006e\u0027\u0074\u002e`,event.threadID, (err, info) => {
-    
-     return global.client.handleReply.push({
-        type: "characters",
-        name: this.config.name,
-        author: senderID,
-        tenchinh: args.join(" ").toUpperCase(),
-        messageID: info.messageID
-      });
-  },event.messageID);
-}
-}
-
-module.exports.handleReply = async function({ api, event, args, handleReply, client, __GLOBAL, Threads, Users, Currencies }) {
-    const axios = require("axios");
-    const fs = require("fs-extra");
-    const request = require("request");
-    var info = await api.getUserInfo(event.senderID);
-    var nameSender = info[event.senderID].name;
-    var arraytag = [];
-        arraytag.push({id: event.senderID, tag: nameSender});
-    if (handleReply.author != event.senderID) return;
-    const {
-        threadID,
-        messageID,
-        senderID
-    } = event;
-
-    switch (handleReply.type) {
-             case "characters": { 
-        	api.unsendMessage(handleReply.messageID);
-        	return api.sendMessage(`Reply to this message enter your primary name`,threadID , function (err, info) { 
-        	  return global.client.handleReply.push({ 
-        	  	type: 'subname',
-        	  	name: 'fbcover',
-        	  	author: senderID,
-        	  	characters: event.body,
-        	  	messageID: info.messageID
-        	  })
-        	}, messageID);
-        } 
-        
-  
-        case "subname": { 
-        	api.unsendMessage(handleReply.messageID);
-        	return api.sendMessage(`You choose ${event.body} as your main name\n(Reply to this message enter your secondary name)`,threadID , function (err, info) { 
-        		return global.client.handleReply.push({ 
-        			type: 'number',
-        			name: 'fbcover',
-        			author: senderID,
-                    characters: handleReply.characters,
-        			name_s: event.body,
-        			messageID: info.messageID
-        		})
-        	}, messageID);
-        }
-
-        case "number": { 
-        	api.unsendMessage(handleReply.messageID);
-        	return api.sendMessage(`You have selected "${event.body}" as your secondary name\n(Reply to this message with your phone number)`,threadID , function (err, info) { 
-        	  return global.client.handleReply.push({ 
-        	  	type: 'address',
-        	  	name: 'fbcover',
-        	  	author: senderID,
-        	  	        	  	 
-             characters: handleReply.characters,
-           subname: event.body,
-              
-        			name_s: handleReply.name_s,
-        			
-        	  	messageID: info.messageID
-        	  })
-        	}, messageID);
-        }
-
-        case "address": { 
-
-
-api.unsendMessage(handleReply.messageID);
-        	return api.sendMessage(`You have selected "${event.body}" as your phone number\n(Reply to this message with your adrress)`,threadID , function (err, info) { 
-        	  return global.client.handleReply.push({ 
-        	  	type: 'email',
-        	  	name: 'fbcover',
-        	  	author: senderID,
-                      	  	 
-            characters: handleReply.characters,
-           subname: handleReply.subname,
-              
-              number: event.body,
-              
-        			name_s: handleReply.name_s,
-              
-        	  	messageID: info.messageID
-        	  })
-        	}, messageID);
-    }
-
-
-        case "email": { 
-        	api.unsendMessage(handleReply.messageID);
-        	return api.sendMessage(`You have selected character "${event.body}" as an address. \n(Reply to this message your email address)`,threadID , function (err, info) { 
-        	  return global.client.handleReply.push({ 
-        	  	type: 'color',
-        	  	name: 'fbcover',
-        	  	author: senderID,
-        	  	characters: handleReply.characters,
-           subname: handleReply.subname,
-              
-              number: handleReply.number,
-              address: event.body,
-        			name_s: handleReply.name_s,
-        	  	messageID: info.messageID
-        	  })
-        	}, messageID);
-        }
-        
-        case "color": { 
-        	api.unsendMessage(handleReply.messageID);
-        	return api.sendMessage(`You have chosen "${event.body}" as your email address.\nEnter\nEnter your background color (note: enter the English name of the color - If you don't want to enter the color then enter "no")\n(Reply this message)`,threadID , function (err, info) {
-        		return global.client.handleReply.push({ 
-        			type: 'create',
-        			name: 'fbcover',
-        			author: senderID,
-        			characters: handleReply.characters,
-           subname: handleReply.subname,
-              
-              number: handleReply.number,
-              address: handleReply.address,
-           email: event.body,
-
-        			name_s: handleReply.name_s,
-        			messageID: info.messageID
-        		})
-        	}, messageID)
-        }
-        case "create": {
-            var char = handleReply.characters;
-            var name = handleReply.name_s;
-          var subname = handleReply.subname;
-          var number = handleReply.number;
-            
-          
-          var address = handleReply.address;
-          var email = handleReply.email;
-          var uid = event.senderID;
-          var color = event.body;
-            api.unsendMessage(handleReply.messageID);
-            api.sendMessage(`Initializing...`,threadID, (err, info) => {
-            setTimeout(() => {
-            	api.unsendMessage(info.messageID);
-            	var callback = () => api.sendMessage({body:`Sender Name: ${nameSender}\nName: ${name}\nSub Name: ${subname}\nID: ${uid}\nColor: ${color}\nAddress: ${address}\nEmail: ${email}\nNumber: ${number}`,mentions: arraytag,attachment: fs.createReadStream(__dirname + "/cache/fbcover.png")}, event.threadID, () => fs.unlinkSync(__dirname + "/cache/fbcover.png"),event.messageID);
-                return request(encodeURI(`https://api.phamvandien.xyz/fbcover/v1?name=${name}&uid=${uid}&address=${address}&email=${email}&subname=${subname}&sdt=${number}&color=${color}&apikey=KeyTest`)).pipe(fs.createWriteStream(__dirname + '/cache/fbcover.png')).on('close', () => callback());
-            }, 1000);
-          }, messageID);
-        }
-    }
-}

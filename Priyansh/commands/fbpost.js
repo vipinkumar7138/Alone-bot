@@ -1,95 +1,212 @@
-module.exports.config = {
-	name: "fbpost",
-	version: "1.0.1",
-	hasPermssion: 0,
-	credits: "𝐏𝐫𝐢𝐲𝐚𝐧𝐬𝐡 𝐑𝐚𝐣𝐩𝐮𝐭",
-	description: "tweet",
-	commandCategory: "Edit-img",
-	usages: "phub [text]",
-	cooldowns: 10,
-dependencies: {"canvas": "",
- "axios": ""}
-};
-module.exports.circle = async (image) => {
-    const jimp = global.nodemodule["jimp"];
-  image = await jimp.read(image);
-  image.circle();
-  return await image.getBufferAsync("image/png");
-}
-module.exports.wrapText = (ctx, text, maxWidth) => {
-	return new Promise(resolve => {
-		if (ctx.measureText(text).width < maxWidth) return resolve([text]);
-		if (ctx.measureText('W').width > maxWidth) return resolve(null);
-		const words = text.split(' ');
-		const lines = [];
-		let line = '';
-		while (words.length > 0) {
-			let split = false;
-			while (ctx.measureText(words[0]).width >= maxWidth) {
-				const temp = words[0];
-				words[0] = temp.slice(0, -1);
-				if (split) words[1] = `${temp.slice(-1)}${words[1]}`;
-				else {
-					split = true;
-					words.splice(1, 0, temp.slice(-1));
-				}
-			}
-			if (ctx.measureText(`${line}${words[0]}`).width < maxWidth) line += `${words.shift()} `;
-			else {
-				lines.push(line.trim());
-				line = '';
-			}
-			if (words.length === 0) lines.push(line.trim());
-		}
-		return resolve(lines);
-	});
-} 
+const fs = require("fs-extra");
+const axios = require("axios");
 
-module.exports.run = async function({ api, event, args, client, __GLOBAL }) {
-	let { senderID, threadID, messageID } = event;
- /* if (!args[0]) { var uid = senderID}
-  if(event.type == "message_reply") { uid = event.messageReply.senderID }
-  if (args.join().indexOf('@') !== -1){ var uid = Object.keys(event.mentions) } */
-	const { loadImage, createCanvas } = require("canvas");
-	const fs = require("fs-extra");
-	const axios = require("axios")
-	let avatar = __dirname + '/cache/avt.png';
-	let pathImg = __dirname + '/cache/porn.png';
-	var text = args.join(" ");
-	const res = await api.getUserInfoV2(event.senderID);
-	if (!text) return api.sendMessage(`Wrong format\nUse: ${global.config.PREFIX}${this.config.name} text`, threadID, messageID);
-	let getAvatar = (await axios.get(res.avatar, { responseType: 'arraybuffer' })).data;
-	let getPorn = (await axios.get(`https://i.imgur.com/VrcriZF.jpg`, { responseType: 'arraybuffer' })).data;
-	fs.writeFileSync(avatar, Buffer.from(getAvatar, 'utf-8'));
-oms = await this.circle(avatar);
-	fs.writeFileSync(pathImg, Buffer.from(getPorn, 'utf-8'));
-	let image = await loadImage(oms);
-	let baseImage = await loadImage(pathImg);
-	let canvas = createCanvas(baseImage.width, baseImage.height);
-	let ctx = canvas.getContext("2d");
-	ctx.drawImage(baseImage, 0, 0, canvas.width, canvas.height);
-	ctx.drawImage(image, 17, 17, 104, 104);
-	ctx.font = "696 32px Sans-Serif";
-	ctx.fillStyle = "#000000";
-	ctx.textAlign = "start";
-	ctx.fillText(res.name, 130, 55);
- /* ctx.font = "400 16px Arial";
-	ctx.fillStyle = "#BBC0C0";
-	ctx.textAlign = "start";
-	ctx.fillText(`@${res.name}`, 153, 99);*/
-	ctx.font = "400 45px Arial";
-	ctx.fillStyle = "#000000";
-	ctx.textAlign = "start";
-	let fontSize = 250;
-	while (ctx.measureText(text).width > 2600) {
-		fontSize--;
-		ctx.font = `500 ${fontSize}px Arial`;
-	}
-	const lines = await this.wrapText(ctx, text, 650);
-	ctx.fillText(lines.join('\n'), 17, 180);
-	ctx.beginPath();
-	const imageBuffer = canvas.toBuffer();
-	fs.writeFileSync(pathImg, imageBuffer);
-	fs.removeSync(avatar);
-	return api.sendMessage({ attachment: fs.createReadStream(pathImg) }, threadID, () => fs.unlinkSync(pathImg), messageID);        
-                                  }
+module.exports = {
+  config: {
+    name: "fbpost",
+    version: "1.0",
+    author: "jfhigtfdv",
+    countDown: 5,
+    role: 2,
+    shortDescription: {
+      en: "Create a new post on Facebook."
+    },
+    longDescription: {
+      en: "Create a new post on Facebook with text, images, and video."
+    },
+    category: "Social",
+    guide: {
+      en: "{pn}: post"
+    }
+  },
+
+  onStart: async function ({ event, api, commandName }) {
+    const { threadID, messageID, senderID } = event;
+    const uuid = getGUID();
+    const formData = {
+      "input": {
+        "composer_entry_point": "inline_composer",
+        "composer_source_surface": "timeline",
+        "idempotence_token": uuid + "_FEED",
+        "source": "WWW",
+        "attachments": [],
+        "audience": {
+          "privacy": {
+            "allow": [],
+            "base_state": "FRIENDS", // SELF EVERYONE
+            "deny": [],
+            "tag_expansion_state": "UNSPECIFIED"
+          }
+        },
+        "message": {
+          "ranges": [],
+          "text": ""
+        },
+        "with_tags_ids": [],
+        "inline_activities": [],
+        "explicit_place_id": "0",
+        "text_format_preset_id": "0",
+        "logging": {
+          "composer_session_id": uuid
+        },
+        "tracking": [
+          null
+        ],
+        "actor_id": api.getCurrentUserID(),
+        "client_mutation_id": Math.floor(Math.random() * 17)
+      },
+      "displayCommentsFeedbackContext": null,
+      "displayCommentsContextEnableComment": null,
+      "displayCommentsContextIsAdPreview": null,
+      "displayCommentsContextIsAggregatedShare": null,
+      "displayCommentsContextIsStorySet": null,
+      "feedLocation": "TIMELINE",
+      "feedbackSource": 0,
+      "focusCommentID": null,
+      "gridMediaWidth": 230,
+      "groupID": null,
+      "scale": 3,
+      "privacySelectorRenderLocation": "COMET_STREAM",
+      "renderLocation": "timeline",
+      "useDefaultActor": false,
+      "inviteShortLinkKey": null,
+      "isFeed": false,
+      "isFundraiser": false,
+      "isFunFactPost": false,
+      "isGroup": false,
+      "isTimeline": true,
+      "isSocialLearning": false,
+      "isPageNewsFeed": false,
+      "isProfileReviews": false,
+      "isWorkSharedDraft": false,
+      "UFI2CommentsProvider_commentsKey": "ProfileCometTimelineRoute",
+      "hashtag": null,
+      "canUserManageOffers": false
+    };
+
+    return api.sendMessage(`Choose an audience that can see this article of yours\n1. Everyone\n2. Friend\n3. Only me`, threadID, (e, info) => {
+      global.GoatBot.onReply.set(info.messageID, {
+        commandName,
+        messageID: info.messageID,
+        author: senderID,
+        formData,
+        type: "whoSee"
+      });
+    }, messageID);
+  },
+  onReply: async function ({ Reply, event, api, commandName }) {
+    const handleReply = Reply;
+    const { type, author, formData } = handleReply;
+    if (event.senderID != author) return;
+
+    const { threadID, messageID, attachments, body } = event;
+    const botID = api.getCurrentUserID();
+
+    async function uploadAttachments(attachments) {
+      let uploads = [];
+      for (const attachment of attachments) {
+        const form = {
+          file: attachment
+        };
+        uploads.push(api.httpPostFormData(`https://www.facebook.com/profile/picture/upload/?profile_id=${botID}&photo_source=57&av=${botID}`, form));
+      }
+      uploads = await Promise.all(uploads);
+      return uploads;
+    }
+
+    if (type == "whoSee") {
+      if (!["1", "2", "3"].includes(body)) return api.sendMessage('Please choose one of the three options above', threadID, messageID);
+      formData.input.audience.privacy.base_state = body == 1 ? "EVERYONE" : body == 2 ? "FRIENDS" : "SELF";
+      api.unsendMessage(handleReply.messageID, () => {
+        api.sendMessage(`Reply to this message with the content of the article. If you want to leave it blank, please reply with 0.`, threadID, (e, info) => {
+          global.GoatBot.onReply.set(info.messageID, {
+            commandName,
+            messageID: info.messageID,
+            author: author,
+            formData,
+            type: "content"
+          });
+        }, messageID);
+      });
+    } else if (type == "content") {
+      if (event.body != "0") formData.input.message.text = event.body;
+      api.unsendMessage(handleReply.messageID, () => {
+        api.sendMessage(`Reply to this message with a photo or video (you can send multiple attachments). To post without attachments, reply with 0.`, threadID, (e, info) => {
+          global.GoatBot.onReply.set(info.messageID, {
+            commandName,
+            messageID: info.messageID,
+            author: author,
+            formData,
+            type: "media"
+          });
+        }, messageID);
+      });
+    } else if (type == "media") {
+      if (event.body != "0") {
+        const allStreamFile = [];
+        for (const attach of attachments) {
+          if (attach.type === "photo") {
+            const getFile = (await axios.get(attach.url, { responseType: "arraybuffer" })).data;
+            fs.writeFileSync(__dirname + `/cache/imagePost.png`, Buffer.from(getFile));
+            allStreamFile.push(fs.createReadStream(__dirname + `/cache/imagePost.png`));
+          } else if (attach.type === "video") {
+            const videoFile = await axios.get(attach.url, { responseType: "stream" });
+            const videoPath = __dirname + `/cache/videoPost.mp4`;
+            videoFile.data.pipe(fs.createWriteStream(videoPath));
+            allStreamFile.push(fs.createReadStream(videoPath));
+          }
+        }
+        const uploadFiles = await uploadAttachments(allStreamFile);
+        for (let result of uploadFiles) {
+          if (typeof result == "string") result = JSON.parse(result.replace("for (;;);", ""));
+
+          if (result.payload && result.payload.fbid) {
+            formData.input.attachments.push({
+              "photo": {
+                "id": result.payload.fbid.toString(),
+              }
+            });
+          }
+        }
+      }
+
+      const form = {
+        av: botID,
+        fb_api_req_friendly_name: "ComposerStoryCreateMutation",
+        fb_api_caller_class: "RelayModern",
+        doc_id: "7711610262190099",
+        variables: JSON.stringify(formData)
+      };
+
+      api.httpPost('https://www.facebook.com/api/graphql/', form, (e, info) => {
+        api.unsendMessage(handleReply.messageID);
+        try {
+          if (e) throw e;
+          if (typeof info == "string") info = JSON.parse(info.replace("for (;;);", ""));
+          const postID = info.data.story_create.story.legacy_story_hideable_id;
+          const urlPost = info.data.story_create.story.url;
+          if (!postID) throw info.errors;
+          try {
+            fs.unlinkSync(__dirname + "/cache/imagePost.png");
+            fs.unlinkSync(__dirname + "/cache/videoPost.mp4");
+          } catch (e) {}
+          return api.sendMessage(`» Post created successfully\n» postID: ${postID}\n» urlPost: ${urlPost}`, threadID, messageID);
+        } catch (e) {
+          // Handle any errors that may occur during the post creation.
+          return api.sendMessage(`Post creation failed, please try again later`, threadID, messageID);
+        }
+      });
+    }
+  }
+};
+
+function getGUID() {
+  var sectionLength = Date.now();
+  var id = "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
+    var r = Math.floor((sectionLength + Math.random() * 16) % 16);
+    sectionLength = Math.floor(sectionLength / 16);
+    var _guid = (c == "x" ? r : (r & 7) | 8).toString(16);
+    return _guid;
+  });
+  return id;
+}
